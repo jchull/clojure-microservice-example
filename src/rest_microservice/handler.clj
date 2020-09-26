@@ -1,15 +1,19 @@
 (ns rest-microservice.handler
   (:use compojure.core
-        ring.middleware.json)
-  (:require [compojure.handler :as handler]
-            [ring.util.response :refer [response]]
+        ring.middleware.json
+        ring.middleware.params)
+  (:require [ring.util.response :refer [response]]
             [compojure.route :as route]
             [rest-microservice.routes :as app-routes]))
 
 (defroutes app-routes
            (GET "/" [] "Nothing here")
            (context "/api" []
-             (GET "/user" [] app-routes/get-all-users))
+             (GET "/user" [] app-routes/get-all-users)
+             (POST "/user" [] app-routes/create-user)
+             (GET "/user/:id" [] app-routes/get-user-by-id :id)
+             (PUT "/user/:id" [] app-routes/update-user :id)
+             (DELETE "/user/:id" [] app-routes/delete-user :id))
            (route/not-found "Not Found"))
 
 (defn wrap-log-request [handler]
@@ -21,4 +25,5 @@
   (-> app-routes
       wrap-log-request
       wrap-json-response
-      wrap-json-body))
+      wrap-json-body
+      ))
