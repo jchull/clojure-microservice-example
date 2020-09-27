@@ -1,6 +1,6 @@
 # rest-microservice
 
-FIXME
+A simple CRUD REST service example using clojure
 
 ## Prerequisites
 
@@ -20,6 +20,9 @@ To run tests:
     
     lein test
 
-## License
+## Sample Requests
 
-Copyright © 2020 FIXME
+IntelliJ HTTP requests can be found at: 
+
+    /test/requests/user.http
+
