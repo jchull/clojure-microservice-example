@@ -7,14 +7,21 @@
             [rest-microservice.routes :as app-routes]))
 
 (defroutes app-routes
-           (GET "/" [] "Nothing here")
-           (context "/api" []
-             (GET "/user" []app-routes/get-all-users)
-             (POST "/user" [] app-routes/create-user)
-             (GET "/user/:id" [] app-routes/get-user-by-id)
-             (PUT "/user/:id" [] app-routes/update-user)
-             (DELETE "/user/:id" [] app-routes/delete-user))
-           (route/not-found "Not Found"))
+  (GET "/" [] "Nothing here")
+  (context "/api" [] (defroutes api-routes
+    (context "/user" [] (defroutes user-routes
+      (GET "/" [] (app-routes/get-all-users))
+      (POST "/" {body :body} (app-routes/create-user (body "username")))
+      (context "/:id" [id] (defroutes user-id-routes
+        (GET "/" [] (app-routes/get-user-by-id id))
+        (PUT "/" {body :body} (app-routes/update-user id body))
+        (DELETE "/" [] (app-routes/delete-user id))
+      ))
+    ))
+  ))
+ (route/not-found "Not Found")
+)
+
 
 (defn wrap-log-request [handler]
   (fn [req]

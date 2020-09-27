@@ -1,35 +1,34 @@
 (ns rest-microservice.routes
   (:require
-    [rest-microservice.api :as api]
-    [ring.util.request :as req])
+    [rest-microservice.api :as api])
   (:gen-class))
 
 (defn get-all-users
-  [req]
+  []
   {:status  200
    :headers {"Content-Type" "application/json"}
    :body    (-> (api/get-all-users))})
 
 (defn create-user
-  [req]
+  [username]
   {:status  200
    :headers {"Content-Type" "application/json"}
-   :body    (-> (api/create-user (get-in req [:body "username"])))})
+   :body    (-> (api/create-user username))})
 
 (defn get-user-by-id
-  [req]
+  [id]
   {:status  200
    :headers {"Content-Type" "application/json"}
-   :body    (-> (api/get-user-by-id (re-find #"\d+" (get req :path-info))))})
+   :body    (-> (api/get-user-by-id id))})
 
 (defn update-user
-  [req]
+  [id body]
   {:status  200
    :headers {"Content-Type" "application/json"}
-   :body    (-> (api/update-user (get-in req [:body])))})
+   :body    (-> (api/update-user id body))})
 
 (defn delete-user
-  [req]
+  [id]
   {:status  200
    :headers {"Content-Type" "application/json"}
-   :body    (-> (api/delete-user (re-find #"\d+" (get req :path-info))))})
+   :body    (-> (api/delete-user id))})

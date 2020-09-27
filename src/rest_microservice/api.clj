@@ -23,10 +23,9 @@
   (-> (format "Created user \"%s\"" username))
   )
 
-
 (defn update-user
   "Updates specific user in the store"
-  [user]
+  [id user]
   (-> "Not yet implemented")
   )
 
