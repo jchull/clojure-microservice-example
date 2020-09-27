@@ -33,8 +33,7 @@
 (defn get-user-by-id
   "Finds specific user in the store"
   [id]
-  (println (format "find user by id: %s\n" id))
-  (-> (filter #(= (:id %) (Integer/parseInt id)) @users))
+  (-> (first (filter #(= (:id %) (Integer/parseInt id)) @users)))
   )
 
 (defn delete-user
