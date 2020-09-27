@@ -13,8 +13,28 @@
     (let [response (app (mock/request :get "/invalid"))]
       (is (= (:status response) 404))))
 
-  (testing "get all users route"
+  (testing "get all users"
     (let [response (app (mock/request :get "/api/user"))]
       (is (= (:status response) 200))
-      (is (= (:body response) "[{\"username\":\"admin\",\"id\":1}]")))))
+      (is (= (:body response) "[{\"username\":\"admin\",\"id\":1}]"))))
+
+  (testing "get user by name"
+    (let [response (app (mock/request :get "/api/user?username=admin"))]
+      (is (= (:status response) 200))
+      (is (= (:body response) "{\"username\":\"admin\",\"id\":1}"))))
+
+  (testing "get user by id"
+    (let [response (app (mock/request :get "/api/user/1"))]
+      (is (= (:status response) 200))
+      (is (= (:body response) "{\"username\":\"admin\",\"id\":1}"))))
+
+  (testing "create user"
+    (let [response (app (mock/request :post "/api/user" [{:username "jimbo"}]))]
+      (is (= (:status response) 200))
+      (is (= (:body response) "{\"username\":\"jimbo\",\"id\":2}"))))
+
+  (testing "delete user"
+    (let [response (app (mock/request :delete "/api/user/1"))]
+      (is (= (:status response) 200))
+      (is (= (:body response) "{\"username\":\"admin\",\"id\":1}")))))
 
