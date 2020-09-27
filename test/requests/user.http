@@ -22,11 +22,11 @@ Content-Type: application/json
 }
 
 
-### get user with id 2
+### get user with specific id
 GET http://localhost:3000/api/user/2
 Accept: application/json
 
 
-### delete user with id 2
+### delete user with specific id
 DELETE http://localhost:3000/api/user/2
 Accept: application/json
